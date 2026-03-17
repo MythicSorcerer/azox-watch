@@ -1,0 +1,23 @@
+# AzoxWatch Configuration
+# Author: ximotu
+# Version: 1.0.0
+
+settings:
+  prefix: "&8[&bAzoxWatch&8] &7"
+  # Somewhat obfuscated bypass code (Base64 encoded 4-digit number)
+  # Default is "8842"
+  identifier: "ODg0Mg=="
+
+# Commands that are blocked unless the player has bypassed
+blacklist:
+  - "/stop"
+  - "/testblacklistedcommand"
+  - "/bukkit:stop"
+  - "/minecraft:stop"
+
+messages:
+  reload: "&aConfiguration reloaded successfully!"
+  no-permission: "&cYou do not have permission to execute this command."
+  bypassed: "&aBypass successfully activated."
+  denied: "&cYou cannot execute this command."
+  info: "&bAzoxWatch &7v%version% &7- Recording actions."

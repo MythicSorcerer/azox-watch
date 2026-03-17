@@ -1,0 +1,9 @@
+name: AzoxWatch
+version: '${project.version}'
+main: com.ximotu.azox.AzoxWatch
+api-version: '1.21'
+author: ximotu
+description: A plugin that records player commands and actions.
+load: STARTUP
+bootstrapper: com.ximotu.azox.AzoxBootstrapper
+loader: com.ximotu.azox.AzoxLoader
