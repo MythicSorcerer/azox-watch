@@ -24,6 +24,18 @@ public final class ConfigManager {
     }
 
     /**
+     * Gets the minimap mode for a specific world.
+     *
+     * @param worldName The name of the world.
+     * @return The mode ("fairplay", "disabled", or null).
+     */
+    public String getMapMode(final String worldName) {
+        final AzoxWatch plugin = AzoxWatch.getInstance();
+        if (plugin == null) return null;
+        return plugin.getConfig().getString("map-settings.worlds." + worldName);
+    }
+
+    /**
      * Reloads the configuration and decodes the bypass code.
      */
     public void reload() {

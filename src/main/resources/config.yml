@@ -15,6 +15,16 @@ blacklist:
   - "/bukkit:stop"
   - "/minecraft:stop"
 
+# Xaero's Minimap / World Map integration
+# Modes: 
+# - fairplay: Disables entity radar/cave maps
+# - disabled: Disables the minimap entirely
+map-settings:
+  worlds:
+    world: "fairplay"
+    world_nether: "fairplay"
+    world_the_end: "disabled"
+
 messages:
   reload: "&aConfiguration reloaded successfully!"
   no-permission: "&cYou do not have permission to execute this command."
