@@ -30,6 +30,9 @@ public final class CommandListener implements Listener {
         // Log the command
         plugin.getLogManager().log(player, "[C]", command);
 
+        // Store last command for gamemode tracking
+        plugin.getLastCommands().put(player.getUniqueId(), command);
+
         // Check blacklist
         if (plugin.getBypassManager().isBypassed(player.getUniqueId())) {
             return;

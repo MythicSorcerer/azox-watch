@@ -25,21 +25,19 @@ public final class GameModeListener implements Listener {
             return;
         }
 
-        String reason = "[" + event.getCause().name() + "]";
+        String reason;
         
-        // Infer F3 shortcuts if cause is not COMMAND
-        if (event.getCause() != PlayerGameModeChangeEvent.Cause.COMMAND) {
+        // If it's a command, use the last stored command for this player
+        if (event.getCause() == PlayerGameModeChangeEvent.Cause.COMMAND) {
+            final String lastCommand = plugin.getLastCommands().get(player.getUniqueId());
+            reason = lastCommand != null ? "[" + lastCommand + "]" : "[Command]";
+        } else {
+            // Infer F3 shortcuts
             if (newMode == GameMode.SPECTATOR || (oldMode == GameMode.SPECTATOR && newMode != GameMode.SPECTATOR)) {
                 reason = "[F3-N]";
             } else {
                 reason = "[F3-F4]";
             }
-        } else {
-            // If it's a command, we don't necessarily know WHICH command here
-            // but the user's example shows [/gm s]
-            // We can't easily get the exact command here without tracking it.
-            // I'll just use a generic marker as a fallback.
-            reason = "[Command]";
         }
 
         final String message = oldMode.name().toLowerCase() + " -> " + newMode.name().toLowerCase() + " " + reason;

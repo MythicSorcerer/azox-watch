@@ -33,6 +33,9 @@ public final class AzoxWatch extends JavaPlugin {
     @Getter
     private BypassManager bypassManager;
 
+    @Getter
+    private final java.util.Map<java.util.UUID, String> lastCommands = new java.util.concurrent.ConcurrentHashMap<>();
+
     @Override
     public void onEnable() {
         // Set the singleton instance

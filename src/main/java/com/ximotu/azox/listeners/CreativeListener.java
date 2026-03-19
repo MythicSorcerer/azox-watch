@@ -12,6 +12,9 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Listener for player taking items from or dropping items from creative inventory.
  */
@@ -36,7 +39,7 @@ public final class CreativeListener implements Listener {
                 .append("- ").append(action).append(": ").append(itemStack.getType().name().replace("_", " ")).append("\n")
                 .append("- Amount: ").append(itemStack.getAmount());
 
-        this.appendNbtData(logBuilder, itemStack);
+        this.formatAndAppendItemData(logBuilder, itemStack);
 
         plugin.getLogManager().log(player, "[T]", logBuilder.toString());
     }
@@ -44,9 +47,6 @@ public final class CreativeListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerDrop(@NotNull final PlayerDropItemEvent event) {
         final Player player = event.getPlayer();
-        // Only log "creative drops" here if they are in creative mode 
-        // to distinguish from survival drops if necessary, 
-        // but the prompt implies items taken/dropped from creative mode.
         if (player.getGameMode() != GameMode.CREATIVE) {
             return;
         }
@@ -62,22 +62,52 @@ public final class CreativeListener implements Listener {
                 .append("- Dropped (Hotbar): ").append(itemStack.getType().name().replace("_", " ")).append("\n")
                 .append("- Amount: ").append(itemStack.getAmount());
 
-        this.appendNbtData(logBuilder, itemStack);
+        this.formatAndAppendItemData(logBuilder, itemStack);
 
         plugin.getLogManager().log(player, "[T]", logBuilder.toString());
     }
 
-    private void appendNbtData(final StringBuilder logBuilder, final ItemStack itemStack) {
+    /**
+     * Attempts to format the item's component/NBT data into a more readable multiline format.
+     */
+    private void formatAndAppendItemData(final StringBuilder logBuilder, final ItemStack itemStack) {
         final String itemString = itemStack.toString();
-        if (itemString.contains("{") || itemString.contains("[")) {
-            int startIndex = itemString.indexOf("[");
-            if (startIndex == -1) {
-                startIndex = itemString.indexOf("{");
+        
+        // 1.21 item toString typically looks like: Material[components...] or {Material x Count, META:{...}}
+        // We'll look for content inside the first [ or {
+        int startIndex = itemString.indexOf("[");
+        if (startIndex == -1) {
+            startIndex = itemString.indexOf("{");
+            // If it starts with { it might be the {Material x Count, ...} format
+            // Let's skip the Material x Count part if it matches
+            int metaStart = itemString.indexOf("META:{");
+            if (metaStart != -1) {
+                startIndex = metaStart + 5;
             }
+        }
+        
+        if (startIndex == -1) return;
+
+        String data = itemString.substring(startIndex).trim();
+        if (data.length() <= 2) return; // Empty [] or {}
+
+        logBuilder.append("\n- Data:");
+        
+        // Simple heuristic: split by ", minecraft:" or ", " that is followed by a component name
+        // This won't be perfect but will be much better than one massive line
+        
+        // Split components - look for ", " followed by something that looks like a component key (e.g. minecraft:lore)
+        // or a meta key (e.g. internal=)
+        final String[] parts = data.split(", (?=[a-zA-Z0-9_]+[:=])");
+        
+        for (String part : parts) {
+            // Clean up wrapping brackets for each entry
+            part = part.trim();
+            if (part.startsWith("[") || part.startsWith("{")) part = part.substring(1);
+            if (part.endsWith("]") || part.endsWith("}")) part = part.substring(0, part.length() - 1);
             
-            if (startIndex != -1) {
-                final String components = itemString.substring(startIndex);
-                logBuilder.append("\n- NBT: ").append(components);
+            if (!part.isEmpty()) {
+                logBuilder.append("\n  * ").append(part);
             }
         }
     }
