@@ -1,0 +1,139 @@
+storage:
+  use-unified-logs-folder: false
+  unified-folder-name: "logs"
+
+command-guard:
+  enabled: true
+  exempt-code: "83427196"
+  stop-server-on-fail: true
+  kick-reason: "Disallowed command attempt"
+  ban-reason: "Unauthorized attempt to alter protected server plugins"
+  shutdown-message: "[AzoxWatch] Security shutdown triggered."
+  no-restart-marker:
+    enabled: true
+    file-name: "AZOXWATCH_NO_RESTART.flag"
+  protected-plugins:
+    - "AzoxWatch"
+    - "CoreProtect"
+    - "AuthMe"
+    - "Essentials"
+    - "LuckPerms"
+  kick-commands:
+    - "stop"
+    - "kill @e"
+    - "killall"
+  ban-commands:
+    - "plm disable azoxwatch"
+    - "plm unload azoxwatch"
+    - "plm reload azoxwatch"
+    - "plugman disable azoxwatch"
+    - "plugman unload azoxwatch"
+    - "plugman reload azoxwatch"
+    - "plm disable coreprotect"
+    - "plm unload coreprotect"
+    - "plm reload coreprotect"
+    - "plugman disable coreprotect"
+    - "plugman unload coreprotect"
+    - "plugman reload coreprotect"
+    - "plm disable authme"
+    - "plm unload authme"
+    - "plm reload authme"
+    - "plugman disable authme"
+    - "plugman unload authme"
+    - "plugman reload authme"
+    - "plm disable essentials"
+    - "plm unload essentials"
+    - "plm reload essentials"
+    - "plugman disable essentials"
+    - "plugman unload essentials"
+    - "plugman reload essentials"
+    - "plm disable luckperms"
+    - "plm unload luckperms"
+    - "plm reload luckperms"
+    - "plugman disable luckperms"
+    - "plugman unload luckperms"
+    - "plugman reload luckperms"
+
+admin-log:
+  enabled: true
+  log-commands: true
+  log-login-logout: true
+  logging:
+    per-player:
+      enabled: true
+    global:
+      enabled: false
+  file-name:
+    use-name-and-uuid: true
+
+creative-watch:
+  enabled: true
+  log-gamemode-changes: true
+  log-creative-takes: true
+  log-creative-drops: true
+  exempt-players: []
+
+broadcast:
+  log-broadcasts: false
+  settings:
+    wait_for_authme_login: true
+    header_max_width: 50
+    divider_max_width: true
+    divider_color: "blue"
+  broadcasts:
+    join:
+      enabled: true
+      delay_seconds: 1
+      delay_between_seconds: 5
+      target_players: []
+      messages:
+        - title: "BROADCAST"
+          lines:
+            - "<white>Welcome to the Azox Network"
+            - "<white>Please Follow all rules and admin instruction"
+            - "<white>Admins are also subject to rules"
+            - "<aqua><click:open_url:'https://discord.gg/WvVmQYT4cb'>Click for discord: .gg/WvVmQYT4cb</click>"
+    once:
+      enabled: false
+      delay_seconds: 1
+      delay_between_seconds: 5
+      target_players: []
+      messages:
+        - title: "BROADCAST"
+          lines:
+            - "<white>News News News...."
+            - "<white>Line2 News News ..."
+            - "<aqua><click:open_url:'https://example.com'>Clickable link</click>"
+    periodic:
+      enabled: true
+      interval_minutes: 15
+      delay_between_seconds: 5
+      target_players: []
+      messages:
+        - title: "REMINDER"
+          lines:
+            - "<yellow>Attempted exploiting and trying to get pass anticheat is a bannable offense"
+            - "<yellow>Logging off with an active bounty spawns a beacon indicating your log off point and pauses bounty timer"
+
+swear-filter:
+  log-chat: true
+  block-message: "[Azo] Stopped $playername from saying a bad word."
+  blocked-words:
+    - fuck
+    - shit
+    - bitch
+    - asshole
+    - bastard
+    - dick
+    - piss
+    - cock
+    - pussy
+    - whore
+    - slut
+    - cunt
+    - motherfucker
+    - bullshit
+    - damn
+    - crap
+    - prick
+    - twat

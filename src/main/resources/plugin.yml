@@ -1,0 +1,33 @@
+name: AzoxWatch
+main: com.azox.watch.AzoxWatchPlugin
+version: 1.0.0
+api-version: '1.21'
+author: Azox
+
+commands:
+  az:
+    description: AzoxWatch utility command
+    usage: /<command> [info]
+  azoxbroadcast:
+    description: Reload AzoxWatch broadcast configuration
+    usage: /<command> reload
+    permission: azoxwatch.broadcast.reload
+  azbc:
+    description: Send an immediate broadcast
+    usage: /<command> <i|g> (target) <message>
+    permission: azoxwatch.broadcast.send
+  azbcc:
+    description: Send an immediate broadcast with a color
+    usage: /<command> <i|g> (target) <color> <message>
+    permission: azoxwatch.broadcast.send
+
+permissions:
+  azoxwatch.broadcast.reload:
+    description: Allows reloading broadcast configuration
+    default: op
+  azoxwatch.broadcast.send:
+    description: Allows sending ad-hoc broadcasts
+    default: op
+  azoxwatch.guard.exempt:
+    description: Allows using /az exempt <code>
+    default: op
